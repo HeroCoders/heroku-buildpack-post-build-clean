@@ -4,6 +4,11 @@ set -euo pipefail
 
 readonly BUILD_DIR=$1
 
+if [[ -n ${BUILDPACK_POST_BUILD_CLEAN_LIST}} ]]; then
+  echo -n "######_FILES "
+  du -t 512K -b -a -0 ${BUILD_DIR} | sort -zh
+fi
+
 if [[ ! -n "${BUILD_DIR}" ]]; then
   echo "No build directory specified - exiting" >&2
   exit 1
